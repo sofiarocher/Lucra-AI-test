@@ -6,7 +6,11 @@ import Clip from "../../../public/lucra-clip.svg"
 import Enter from "../../../public/lucra-enter.svg"
 import { useRef, useState } from "react";
 
-export default function Prompt() {
+type PromptProps = {
+  handleFocus: () => void; 
+};
+
+export default function Prompt({ handleFocus }: PromptProps)  {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [promptValue, setPromptValue] = useState('');
@@ -38,6 +42,7 @@ export default function Prompt() {
             placeholder="Type your prompt here..."
             value={promptValue}
             onChange={(e) => setPromptValue(e.target.value)}
+            onFocus={handleFocus}
             onKeyDown={handleKeyDown}
             startContent={
                 <div className="flex items-center text-white">
