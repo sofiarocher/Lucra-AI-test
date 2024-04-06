@@ -17,7 +17,7 @@ export default function Prompt() {
         }
       };
 
-      const handleEnterClick = () => {
+    const handleEnterClick = () => {
         console.log(promptValue);
         setPromptValue(''); 
     };
@@ -27,7 +27,6 @@ export default function Prompt() {
             handleEnterClick();
         }
     };
-
 
     return (
       <div className="flex w-full mb-6 md:mb-0 gap-4">
