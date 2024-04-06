@@ -7,10 +7,11 @@ import Enter from "../../../public/lucra-enter.svg"
 import { useRef, useState } from "react";
 
 type PromptProps = {
-  handleFocus: () => void; 
+  handleFocus?: () => void; 
+  classname?: string;
 };
 
-export default function Prompt({ handleFocus }: PromptProps)  {
+export default function Prompt({ handleFocus, classname }: PromptProps)  {
 
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [promptValue, setPromptValue] = useState('');
@@ -33,7 +34,7 @@ export default function Prompt({ handleFocus }: PromptProps)  {
     };
 
     return (
-      <div className="flex w-full mb-6 md:mb-0 gap-4">
+      <div className={`flex w-full mb-6 md:mb-0 gap-4 ${classname}`}>
         <Input 
             type="text" 
             variant="faded" 
