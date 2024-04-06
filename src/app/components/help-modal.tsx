@@ -32,7 +32,7 @@ export default function ModalHelp({ onClose }: ModalHelpProps) {
               title="Text Generation" 
               content="Text generation uses artificial intelligence to create coherent and contextual written content. This tool is ideal for drafting articles, generating creative ideas, or building complex narratives automatically." />
             <ModalContent 
-              title="Image Generation" 
+              title="Image Generation (Available in Oct, 2024)" 
               content="Image generation allows for the creation of unique visuals from textual descriptions, opening a spectrum of creative and design possibilities. This feature transforms words into detailed images, facilitating innovative graphic material creation."
               classname='pr-20' />
             <Image src={LucraH2} alt="Lucra AI Help Model" className='saturate-150 contrast-100 brightness-[90%] w-[80px] lg:w-[100px] absolute right-0 bottom-0'/>

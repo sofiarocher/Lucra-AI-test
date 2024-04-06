@@ -59,7 +59,7 @@ export default function Generate() {
                 alt="Lucra Text AI Model"
               />
               <Card
-                title="Image Generation"
+                title="Image Generation (Oct, 2024)"
                 image={LucraI}
                 alt="Lucra Image AI Model"
               />
