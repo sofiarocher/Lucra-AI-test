@@ -1,9 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { Spinner } from '@nextui-org/react';
 import Image from "next/image";
 import Prompt from "./input-prompt";
-import User from "../../../public/lucra-user.png"
+import User from "../../../public/user-profile.png"
 import LucraU from "../../../public/lucra-user.png"
 
 interface ChatProps {
@@ -19,11 +20,13 @@ interface Message {
 
 export default function Chat({ title }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
-  
+  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
+
+
 
   const handleRefresh = () => {
     setMessages([]); 
@@ -35,6 +38,8 @@ export default function Chat({ title }: ChatProps) {
   }, [messages]);
 
   const handleEnterClick = async () => {
+          setIsLoading(true);
+
           if (!promptValue.trim()) return;
 
           const newMessage: Message = {
@@ -91,6 +96,7 @@ export default function Chat({ title }: ChatProps) {
         });
   
         const result = await chat.sendMessage(promptValue);
+        setIsLoading(false);
         const response = result.response;
   
         setTimeout(() => {
@@ -101,7 +107,8 @@ export default function Chat({ title }: ChatProps) {
           };
           
           setMessages(messages => [...messages, aiResponse]);
-        }, 1500);
+        }, 1000);
+        
       }
 
       return (
@@ -123,7 +130,7 @@ export default function Chat({ title }: ChatProps) {
                       {msg.sender === 'user' && (
                         <div className="flex items-center justify-end mt-2">
                           <span className="text-white mr-2 font-medium">User</span>
-                          <Image src={User} alt="User" className="w-8 h-8 rounded-full" />
+                          <Image src={User} alt="User" className="w-7 h-7 rounded-full" />
                         </div>
                       )}
                       <p className="text-white">{msg.content}</p>
