@@ -8,7 +8,6 @@ import LucraU from "../../../public/lucra-user.png"
 
 interface ChatProps {
     title: string;
-    onclick?: () => void; 
 }
 
 interface Message {
@@ -18,13 +17,18 @@ interface Message {
 }
 
 
-export default function Chat({ title, onclick }: ChatProps) {
+export default function Chat({ title }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
   
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
+
+  const handleRefresh = () => {
+    setMessages([]); 
+    localStorage.removeItem('messages'); 
+  };
 
   useEffect(() => {
     localStorage.setItem('messages', JSON.stringify(messages));
@@ -127,7 +131,7 @@ export default function Chat({ title, onclick }: ChatProps) {
             </div>
           </div>
           
-          <Prompt promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick}/>
+          <Prompt promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick} refresh={handleRefresh}/>
         </div>
       )
 }

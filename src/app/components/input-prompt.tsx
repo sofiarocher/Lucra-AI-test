@@ -1,9 +1,9 @@
 "use client"
 
-import { useRef } from "react";
 import {Input} from "@nextui-org/react";
 import Image from "next/image";
 import Enter from "../../../public/lucra-enter.svg"
+import Refresh from "../../../public/lucra-refresh.svg"
 
 type PromptProps = {
   handleFocus?: () => void;
@@ -11,17 +11,11 @@ type PromptProps = {
   promptValue?: any;
   setPromptValue?: any;
   click?: () => void;
+  refresh?: () => void;
 };
 
-export default function Prompt({ handleFocus, classname, promptValue, click, setPromptValue}: PromptProps) {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
-
+export default function Prompt({ handleFocus, classname, promptValue, click, setPromptValue, refresh}: PromptProps) {
+  
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       click
@@ -41,8 +35,9 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         endContent={
-          <div className="flex items-center text-white" onClick={click} style={{ cursor: 'pointer' }}>
-            <Image src={Enter} alt="Enter" className="opacity-90 lg:w-[28px] w-[24px]" />
+          <div className="flex items-center text-white" style={{ cursor: 'pointer' }}>
+            <Image src={Refresh} alt="Refresh" className="opacity-90 lg:w-[24px] w-[20px] mr-4" onClick={refresh}/>
+            <Image src={Enter} alt="Enter" className="opacity-90 lg:w-[28px] w-[24px]" onClick={click}/>
           </div>
         }
         classNames={{
