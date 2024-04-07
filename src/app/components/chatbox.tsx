@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Prompt from "./input-prompt";
-import Close from "../../../public/lucra-cross.svg"
 import User from "../../../public/lucra-user.png"
 import LucraU from "../../../public/lucra-user.png"
 
@@ -21,7 +20,6 @@ interface Message {
 
 export default function Chat({ title, onclick }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
-  const [dataValue, setDataValue] = useState('');
   
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
@@ -41,7 +39,6 @@ export default function Chat({ title, onclick }: ChatProps) {
             sender: 'user',
           };
       
-
           setMessages(messages => [...messages, newMessage]);
           setPromptValue("");
 
@@ -104,8 +101,7 @@ export default function Chat({ title, onclick }: ChatProps) {
       }
 
       return (
-        <div className="flex flex-col items-center justify-center lg:p-24 relative gap-4 w-3/4">
-          <Image src={Close} alt="Close Icon" onClick={onclick} className="absolute right-0 top-20 opacity-30" />
+        <div className="flex flex-col items-center justify-center lg:p-24 gap-4 w-3/4">
           <p className="lg:text-4xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">{title}</p>
           <div className="h-2/3 w-full bg-gray-300/5 rounded-lg border-1 border-blue-300/10 overflow-y-auto scrollbar-thin scrollbar-thumb-black/80 scrollbar-track-black/10 scrollbar-rounded scroll-smooth">
             <div className="flex flex-col gap-2 p-4">
