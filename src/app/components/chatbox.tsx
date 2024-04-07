@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from '@nextui-org/react';
 import Image from "next/image";
 import Prompt from "./input-prompt";
@@ -20,13 +20,10 @@ interface Message {
 
 export default function Chat({ title }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
-
-
 
   const handleRefresh = () => {
     setMessages([]); 
@@ -38,8 +35,6 @@ export default function Chat({ title }: ChatProps) {
   }, [messages]);
 
   const handleEnterClick = async () => {
-          setIsLoading(true);
-
           if (!promptValue.trim()) return;
 
           const newMessage: Message = {
@@ -96,12 +91,11 @@ export default function Chat({ title }: ChatProps) {
         });
   
         const result = await chat.sendMessage(promptValue);
-        setIsLoading(false);
         const response = result.response;
   
         setTimeout(() => {
           const aiResponse: Message = {
-            content: response.text(),
+            content: formatResponseText(response.text()),
             timestamp: new Date().toISOString(),
             sender: 'ai',
           };
@@ -110,6 +104,27 @@ export default function Chat({ title }: ChatProps) {
         }, 1000);
         
       }
+
+      const formatResponseText = (text: string) => {
+        let formattedText = text.replace(/\*\*(.*?)\*\*/g, '\n\n$1\n\n');
+              formattedText = formattedText.replace(/(\n|^)\*(?=\s)/g, '\n* ');
+      
+        return formattedText;
+      };
+
+      const MessageContent = ({ content }: { content: string })  => {
+        return (
+          <>
+            {content.split('\n').map((line: string, index: any, array: any) => (
+              <React.Fragment key={index}>
+                {line}
+                {index < array.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </>
+        );
+      };
+      
 
       return (
         <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden">
@@ -133,7 +148,9 @@ export default function Chat({ title }: ChatProps) {
                           <Image src={User} alt="User" className="w-7 h-7 rounded-full" />
                         </div>
                       )}
-                      <p className="text-white">{msg.content}</p>
+                      <p className="text-white">
+                        <MessageContent content={msg.content} />
+                      </p>
                     </div>
                   </div>
                 ))}
