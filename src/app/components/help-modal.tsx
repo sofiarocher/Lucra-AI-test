@@ -3,6 +3,7 @@ import Image from 'next/image';
 import ModalContent from './modal-info';
 import Close from "../../../public/lucra-cross.svg"
 import LucraH2 from "../../../public/lucra-help-2.png"
+import 'animate.css';
 interface ModalHelpProps {
   onClose: () => void;
 }
@@ -15,7 +16,7 @@ export default function ModalHelp({ onClose }: ModalHelpProps) {
       };
 
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center p-4" onClick={handleOutsideClick} >
+      <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center p-4 animate__animated animate__fadeIn" onClick={handleOutsideClick} >
         <div className="rounded-lg p-8 text-white/90 bg-gray-300/5 border-1 border-blue-300/30 text-center lg:w-2/4 w-auto relative sm:mx-20" onClick={(e) => e.stopPropagation()}>
             <Image src={Close} alt="Close Icon"  onClick={onClose} className='absolute right-4 top-4 opacity-70 w-4 lg:w-8 cursor-pointer'/>
             <h2 className='lg:text-3xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient'>How to use Lucra?</h2>

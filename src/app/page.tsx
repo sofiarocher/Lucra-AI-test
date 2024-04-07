@@ -4,11 +4,12 @@ import {Button} from "@nextui-org/react";
 import Logo from "../../public/lucra-logo.png"
 import LucraH from "../../public/lucra-home.png"
 import Arrow from "../../public/white-arrow.png"
+import 'animate.css';
 
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center lg:p-24 relative">
+    <main className="flex min-h-screen flex-col items-center justify-center lg:p-24 relative animate__animated animate__fadeIn">
       <section className="flex flex-col items-center justify-center mb-24">
         <div className="sm:text-5xl md:text-6xl lg:text-7xl text-5xl font-bold text-transparent bg-clip-text bg-text-gradient">
           <h1>
@@ -25,7 +26,7 @@ export default function Home() {
           </Button>
         </Link>
       </section>
-      <div className="flex flex-col items-center text-center text-white/70 absolute bottom-1 right-0">
+      <div className="flex flex-col items-center text-center text-white/70 absolute bottom-1 right-0 ">
         <p className="text-sm md:text-lg lg:text-xl relative lg:right-28 right-[35%] ">Meet Lucra! <br /> Your AI Model</p>
         <div className="opacity-40 absolute lg:bottom-50 bottom-[60%]">
           <Image src={Arrow} alt="White Arrow" width={120}/>

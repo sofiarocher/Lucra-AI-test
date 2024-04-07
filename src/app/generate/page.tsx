@@ -9,6 +9,7 @@ import ModalHelp from "../components/help-modal"
 import LucraT from "../../../public/lucra-text.png"
 import LucraI from "../../../public/lucra-img.png"
 import LucraH from "../../../public/lucra-help.png"
+import 'animate.css';
 
 export default function Generate() {
   const [chatActive, setChatActive] = useState(false);
@@ -32,7 +33,7 @@ export default function Generate() {
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center p-8 lg:p-0">
+    <main className="relative min-h-screen flex flex-col items-center justify-center p-8 lg:p-0 animate__animated animate__fadeIn">
     {openModal && (
       <ModalHelp onClose={handleModal} />
     )}
