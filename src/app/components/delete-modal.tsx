@@ -7,13 +7,7 @@ import {
   ModalFooter,
   Button,
 } from "@nextui-org/react";
-
-type DeleteProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  hasMessages: boolean;
-};
+import { DeleteProps } from "../../../interfaces";
 
 export default function Delete({
   isOpen,
@@ -34,11 +28,11 @@ export default function Delete({
           Confirm Action
         </ModalHeader>
         <ModalBody>
-          {hasMessages ? (
-            <p>Are you sure you want to delete the conversation?</p>
-          ) : (
-            <p>Nothing to delete.</p>
-          )}
+          <p>
+            {hasMessages
+              ? "Are you sure you want to delete the conversation?"
+              : "Nothing to delete."}
+          </p>
         </ModalBody>
         <ModalFooter>
           <Button color="default" variant="light" onPress={onClose}>

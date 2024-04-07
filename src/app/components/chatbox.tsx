@@ -7,16 +7,7 @@ import User from "../../../public/user-profile.png";
 import LucraU from "../../../public/lucra-user.png";
 import { useDisclosure } from "@nextui-org/react";
 import Delete from "./delete-modal";
-
-interface ChatProps {
-  title: string;
-}
-
-interface Message {
-  content: string;
-  timestamp: string;
-  sender: "user" | "ai";
-}
+import { ChatProps, Message } from "../../../interfaces";
 
 export default function Chat({ title }: ChatProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -24,11 +15,19 @@ export default function Chat({ title }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [hasMessages, setHasMessages] = useState(true);
-  const [apiError, setApiError] = useState("");
+  
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem("messages");
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
+  
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }, [messages]);
 
   useEffect(() => {
     const messagesInStorage = localStorage.getItem("messages");
@@ -41,91 +40,12 @@ export default function Chat({ title }: ChatProps) {
 
   const handleDeleteClick = () => {
     const hasMessagesInChat = messages.length > 0;
-    setHasMessages(hasMessagesInChat); // Actualiza el estado hasMessages basado en si hay mensajes
-    onOpen(); // Abre el modal independientemente, pero el contenido interno cambiará basado en hasMessages
+    setHasMessages(hasMessagesInChat); 
+    onOpen(); 
   };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
-    localStorage.setItem("messages", JSON.stringify(messages));
-  }, [messages]);
-
-  const handleEnterClick = async () => {
-    if (!promptValue.trim()) return;
-
-    setApiError(""); // Limpiar errores anteriores
-
-    const newMessage: Message = {
-      // Define newMessage fuera de try para poder acceder después
-      content: promptValue,
-      timestamp: new Date().toISOString(),
-      sender: "user",
-    };
-
-    try {
-      setMessages((messages) => [...messages, newMessage]);
-      setPromptValue("");
-
-      const {
-        GoogleGenerativeAI,
-        HarmCategory,
-        HarmBlockThreshold,
-      } = require("@google/generative-ai");
-
-      const MODEL_NAME = "gemini-1.0-pro";
-      const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-
-      const genAI = new GoogleGenerativeAI(API_KEY);
-      const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-      const generationConfig = {
-        temperature: 0.9,
-        topK: 1,
-        topP: 1,
-        maxOutputTokens: 2048,
-      };
-
-      const safetySettings = [
-        {
-          category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-          threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
-        },
-        // otros settings
-      ];
-
-      const chat = model.startChat({
-        generationConfig,
-        safetySettings,
-        history: [],
-      });
-
-      setIsAiThinking(true);
-
-      const result = await chat.sendMessage(promptValue);
-      const response = result.response;
-
-      setTimeout(() => {
-        setIsAiThinking(false);
-        const aiResponse: Message = {
-          content: formatResponseText(response.text()),
-          timestamp: new Date().toISOString(),
-          sender: "ai",
-        };
-
-        setMessages((messages) => [...messages, aiResponse]);
-      }, 1000);
-    } catch (error) {
-      setIsAiThinking(false);
-      setApiError("Error al procesar la solicitud. Inténtalo de nuevo.");
-      console.error("API call error:", error);
-    }
   };
 
   const TypingAnimation = () => {
@@ -158,12 +78,84 @@ export default function Chat({ title }: ChatProps) {
     );
   };
 
+  const handleEnterClick = async () => {
+    if (!promptValue.trim()) return;
+
+    const newMessage: Message = {
+      content: promptValue,
+      timestamp: new Date().toISOString(),
+      sender: "user",
+    };
+
+    setMessages((messages) => [...messages, newMessage]);
+    setPromptValue("");
+
+    const {
+      GoogleGenerativeAI,
+      HarmCategory,
+      HarmBlockThreshold,
+    } = require("@google/generative-ai");
+
+    const MODEL_NAME = "gemini-1.0-pro";
+    const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+    const generationConfig = {
+      temperature: 0.9,
+      topK: 1,
+      topP: 1,
+      maxOutputTokens: 2048,
+    };
+
+    const safetySettings = [
+      {
+        category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+      {
+        category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+        threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+      },
+    ];
+
+    const chat = model.startChat({
+      generationConfig,
+      safetySettings,
+      history: [],
+    });
+
+    setIsAiThinking(true);
+
+    const result = await chat.sendMessage(promptValue);
+    const response = result.response;
+
+    setTimeout(() => {
+      setIsAiThinking(false);
+      const aiResponse: Message = {
+        content: formatResponseText(response.text()),
+        timestamp: new Date().toISOString(),
+        sender: "ai",
+      };
+
+      setMessages((messages) => [...messages, aiResponse]);
+    }, 1000);
+  };
+
   return (
     <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden">
       <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}
       </p>
-
       {messages.length > 0 && (
         <div className="h-2/3 w-full bg-gray-300/5 rounded-lg border-1 border-blue-300/10 overflow-y-auto scrollbar-thin scrollbar-thumb-black/80 scrollbar-track-black/10 scrollbar-rounded scroll-smooth">
           <div className="flex flex-col gap-2 p-4 text-sm">
@@ -236,7 +228,6 @@ export default function Chat({ title }: ChatProps) {
           </div>
         </div>
       )}
-
       <Prompt
         promptValue={promptValue}
         setPromptValue={setPromptValue}

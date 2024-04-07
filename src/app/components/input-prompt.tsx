@@ -4,27 +4,19 @@ import { Input } from "@nextui-org/react";
 import Image from "next/image";
 import Enter from "../../../public/lucra-enter.svg";
 import Delete from "../../../public/lucra-delete.svg";
-
-type PromptProps = {
-  handleFocus?: () => void;
-  classname?: string;
-  promptValue?: any;
-  setPromptValue?: any;
-  click?: () => void;
-  refresh?: () => void;
-};
+import { PromptProps } from "../../../interfaces";
 
 export default function Prompt({
-  handleFocus,
-  classname,
-  promptValue,
-  click,
-  setPromptValue,
-  refresh,
+  handleFocus = () => {},
+  classname = "",
+  promptValue = "",
+  setPromptValue = () => {},
+  click = () => {},
+  refresh = () => {},
 }: PromptProps) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      click && click();
+      click();
     }
   };
 
@@ -41,10 +33,7 @@ export default function Prompt({
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         endContent={
-          <div
-            className="flex items-center text-white"
-            style={{ cursor: "pointer" }}
-          >
+          <div className="flex items-center text-white cursor-pointer">
             <Image
               src={Delete}
               alt="Delete"
@@ -61,24 +50,11 @@ export default function Prompt({
         }
         classNames={{
           label: "text-white/90",
-          input: [
-            "bg-black/5",
-            "text-white/90",
-            "placeholder:text-white/40",
-            "placeholder:text-sm",
-            "placeholder:lg:text-xl",
-            "text-xl",
-          ],
-          innerWrapper: ["bg-transparent"],
-          inputWrapper: [
-            "bg-transparent",
-            "dark:bg-black/60",
-            "backdrop-blur-lg",
-            "!cursor-text",
-            "border-1",
-            "border-blue-300",
-            "border-opacity-30",
-          ],
+          input:
+            "bg-black/5 text-white/90 placeholder:text-white/40 placeholder:text-sm placeholder:lg:text-xl text-xl",
+          innerWrapper: "bg-transparent",
+          inputWrapper:
+            "bg-transparent dark:bg-black/60 backdrop-blur-lg !cursor-text border-1 border-blue-300 border-opacity-30",
         }}
       />
     </div>
