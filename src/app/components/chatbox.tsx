@@ -101,10 +101,10 @@ export default function Chat({ title, onclick }: ChatProps) {
       }
 
       return (
-        <div className="flex flex-col items-center justify-center lg:p-24 gap-4 w-3/4">
-          <p className="lg:text-4xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">{title}</p>
+        <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden">
+          <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">{title}</p>
           <div className="h-2/3 w-full bg-gray-300/5 rounded-lg border-1 border-blue-300/10 overflow-y-auto scrollbar-thin scrollbar-thumb-black/80 scrollbar-track-black/10 scrollbar-rounded scroll-smooth">
-            <div className="flex flex-col gap-2 p-4">
+            <div className="flex flex-col gap-2 p-4 text-sm">
               {messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((msg, index) => (
                 <div key={index} className={`flex ${msg.sender === 'user' ? 'flex-col-reverse items-end' : 'flex-col items-start'}`}>
                   <div className={`${msg.sender === 'user' ? 'bg-blue-300/20' : 'bg-black/30'} rounded-lg px-4 py-2`}>
