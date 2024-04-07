@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import {Input} from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import Image from "next/image";
-import Enter from "../../../public/lucra-enter.svg"
-import Delete from "../../../public/lucra-delete.svg"
+import Enter from "../../../public/lucra-enter.svg";
+import Delete from "../../../public/lucra-delete.svg";
 
 type PromptProps = {
   handleFocus?: () => void;
@@ -14,10 +14,16 @@ type PromptProps = {
   refresh?: () => void;
 };
 
-export default function Prompt({ handleFocus, classname, promptValue, click, setPromptValue, refresh}: PromptProps) {
-  
+export default function Prompt({
+  handleFocus,
+  classname,
+  promptValue,
+  click,
+  setPromptValue,
+  refresh,
+}: PromptProps) {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       click && click();
     }
   };
@@ -35,9 +41,22 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         endContent={
-          <div className="flex items-center text-white" style={{ cursor: 'pointer' }}>
-            <Image src={Delete} alt="Delete" className="opacity-90 lg:w-[24px] w-[20px] mr-4" onClick={refresh}/>
-            <Image src={Enter} alt="Enter" className="opacity-90 lg:w-[28px] w-[24px]" onClick={click}/>
+          <div
+            className="flex items-center text-white"
+            style={{ cursor: "pointer" }}
+          >
+            <Image
+              src={Delete}
+              alt="Delete"
+              className="opacity-90 lg:w-[24px] w-[20px] mr-4"
+              onClick={refresh}
+            />
+            <Image
+              src={Enter}
+              alt="Enter"
+              className="opacity-90 lg:w-[28px] w-[24px]"
+              onClick={click}
+            />
           </div>
         }
         classNames={{
@@ -48,11 +67,9 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
             "placeholder:text-white/40",
             "placeholder:text-sm",
             "placeholder:lg:text-xl",
-            "text-xl"
+            "text-xl",
           ],
-          innerWrapper: [
-            "bg-transparent",
-          ],
+          innerWrapper: ["bg-transparent"],
           inputWrapper: [
             "bg-transparent",
             "dark:bg-black/60",

@@ -1,5 +1,12 @@
 import React from "react";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from "@nextui-org/react";
 
 type DeleteProps = {
   isOpen: boolean;
@@ -8,11 +15,24 @@ type DeleteProps = {
   hasMessages: boolean;
 };
 
-export default function Delete({ isOpen, onClose, onConfirm, hasMessages }: DeleteProps) {
+export default function Delete({
+  isOpen,
+  onClose,
+  onConfirm,
+  hasMessages,
+}: DeleteProps) {
   return (
-    <Modal backdrop="blur" isOpen={isOpen} onClose={onClose} placement="center" className="m-8">
+    <Modal
+      backdrop="blur"
+      isOpen={isOpen}
+      onClose={onClose}
+      placement="center"
+      className="m-8"
+    >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">Confirm Action</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">
+          Confirm Action
+        </ModalHeader>
         <ModalBody>
           {hasMessages ? (
             <p>Are you sure you want to delete the conversation?</p>
