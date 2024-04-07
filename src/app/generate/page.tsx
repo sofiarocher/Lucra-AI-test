@@ -43,7 +43,7 @@ export default function Generate() {
         </animated.div>
       ) : (
         !openModal && (
-          <section className="flex flex-col items-center justify-center lg:gap-40 gap-16 mt-12">
+          <section className="flex flex-col items-center justify-center lg:gap-20 gap-16 mt-12">
             <p className="sm:text-3xl md:text-4xl lg:text-5xl text-4xl font-bold text-transparent bg-clip-text bg-text-gradient text-center">
               How can Lucra help you today?
             </p>

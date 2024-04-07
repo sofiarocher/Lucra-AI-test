@@ -7,9 +7,9 @@ interface InfoProps {
 
 export default function ModalContent({ title, content, classname }: InfoProps) {
     return (
-      <div className={`text-start m-auto lg:my-4 my-2 ${classname}`}>
-        <p className='font-semibold lg:pt-4 pt-1 text-sm lg:text-xl'>{title}</p>
-        <p className="text-[12px] lg:text-sm ">{content}</p>
+      <div className={`text-start m-auto my-2 ${classname}`}>
+        <p className='font-semibold lg:pt-2 pt-1 text-sm lg:text-lg'>{title}</p>
+        <p className="text-[12px]">{content}</p>
       </div>
     );
   }
