@@ -5,6 +5,8 @@ import Image from "next/image";
 import Prompt from "./input-prompt";
 import User from "../../../public/user-profile.png"
 import LucraU from "../../../public/lucra-user.png"
+import { useDisclosure } from "@nextui-org/react";
+import Delete from "./delete-modal";
 
 interface ChatProps {
     title: string;
@@ -18,17 +20,27 @@ interface Message {
 
 
 export default function Chat({ title }: ChatProps) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [promptValue, setPromptValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [isAiThinking, setIsAiThinking] = useState(false)
+  const [hasMessages, setHasMessages] = useState(true);
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
   });
 
-  const handleRefresh = () => {
-    setMessages([]); 
-    localStorage.removeItem('messages'); 
+  useEffect(() => {
+    const messagesInStorage = localStorage.getItem('messages');
+    const messagesArray = messagesInStorage ? JSON.parse(messagesInStorage) : [];
+    setHasMessages(messagesArray.length > 0);
+    setMessages(messagesArray);
+  }, []);
+
+  const handleDeleteClick = () => {
+    const hasMessagesInChat = messages.length > 0;
+    setHasMessages(hasMessagesInChat);  
+    onOpen(); 
   };
 
   const scrollToBottom = () => {
@@ -190,7 +202,22 @@ export default function Chat({ title }: ChatProps) {
             </div>
           )}
     
-          <Prompt promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick} refresh={handleRefresh} />
+            <Prompt
+                promptValue={promptValue}
+                setPromptValue={setPromptValue}
+                click={handleEnterClick}
+                refresh={handleDeleteClick} 
+            />
+            <Delete
+                isOpen={isOpen}
+                onClose={onClose}
+                onConfirm={() => {
+                    setMessages([]);
+                    localStorage.removeItem('messages');
+                    onClose(); 
+                }}
+                hasMessages={hasMessages}
+            />
         </div>
       );
 }
