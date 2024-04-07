@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Prompt from "./input-prompt";
 import Close from "../../../public/lucra-cross.svg"
@@ -12,26 +12,50 @@ interface ChatProps {
     onclick?: () => void; 
 }
 
+interface Message {
+  content: string;
+  timestamp: string;
+  sender: 'user' | 'ai';
+}
+
+
 export default function Chat({ title, onclick }: ChatProps) {
-    const [promptValue, setPromptValue] = useState<string>('');
-    const [inputValue, setInputValue] = useState<string>('');
-    const [dataValue, setDataValue] = useState("");
+  const [promptValue, setPromptValue] = useState('');
+  const [dataValue, setDataValue] = useState('');
+  
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const savedMessages = localStorage.getItem('messages');
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
 
-    const handleEnterClick = async () => {
-        setPromptValue(inputValue);
-        setInputValue("");
+  useEffect(() => {
+    localStorage.setItem('messages', JSON.stringify(messages));
+  }, [messages]);
 
-        const {
-          GoogleGenerativeAI,
-          HarmCategory,
-          HarmBlockThreshold,
-        } = require("@google/generative-ai");
-    
-        const MODEL_NAME = "gemini-1.0-pro";
-        const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-    
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+  const handleEnterClick = async () => {
+          if (!promptValue.trim()) return;
+
+          const newMessage: Message = {
+            content: promptValue,
+            timestamp: new Date().toISOString(),
+            sender: 'user',
+          };
+      
+
+          setMessages(messages => [...messages, newMessage]);
+          setPromptValue("");
+
+          const {
+            GoogleGenerativeAI,
+            HarmCategory,
+            HarmBlockThreshold,
+          } = require("@google/generative-ai");
+
+          const MODEL_NAME = "gemini-1.0-pro";
+          const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+
+          const genAI = new GoogleGenerativeAI(API_KEY);
+          const model = genAI.getGenerativeModel({ model: MODEL_NAME });
     
         const generationConfig = {
           temperature: 0.9,
@@ -64,13 +88,20 @@ export default function Chat({ title, onclick }: ChatProps) {
           safetySettings,
           history: [],
         });
-    
+  
         const result = await chat.sendMessage(promptValue);
         const response = result.response;
-        setDataValue(response.text())
-      };
-      
-      console.log(dataValue)
+  
+        setTimeout(() => {
+          const aiResponse: Message = {
+            content: response.text(),
+            timestamp: new Date().toISOString(),
+            sender: 'ai',
+          };
+          
+          setMessages(messages => [...messages, aiResponse]);
+        }, 1500);
+      }
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center lg:p-24 relative gap-20">
@@ -85,11 +116,19 @@ export default function Chat({ title, onclick }: ChatProps) {
                     <Image src={LucraU} alt="User Profile Picture" className="w-8"/>
                     <p className="pl-2">Lucra</p>
                 </div>
-            <p>{promptValue}</p>
-            <p>{dataValue}</p>
+                <div className="flex flex-col gap-2 p-4">
+                  {messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((msg, index) => (
+                    <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <p className={`${msg.sender === 'user' ? 'bg-blue-500' : 'bg-green-500'} rounded px-4 py-2`}>
+                        {msg.content}
+                        {/* <span>{msg.timestamp}</span> */}
+                      </p>
+                    </div>
+                  ))}
+                </div>
             </div>
             
-            <Prompt classname="" inputValue={inputValue} setInputValue={setInputValue} click={handleEnterClick}/>
+            <Prompt classname="" promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick}/>
         </div>
     )
 }

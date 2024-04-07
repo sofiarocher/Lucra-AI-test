@@ -9,12 +9,12 @@ import Enter from "../../../public/lucra-enter.svg"
 type PromptProps = {
   handleFocus?: () => void;
   classname?: string;
-  inputValue?: any;
-  setInputValue?: any;
+  promptValue?: any;
+  setPromptValue?: any;
   click?: () => void;
 };
 
-export default function Prompt({ handleFocus, classname, inputValue, click, setInputValue}: PromptProps) {
+export default function Prompt({ handleFocus, classname, promptValue, click, setPromptValue}: PromptProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
@@ -37,8 +37,8 @@ export default function Prompt({ handleFocus, classname, inputValue, click, setI
         radius="md"
         size="lg"
         placeholder="Type your prompt here..."
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
+        value={promptValue}
+        onChange={(e) => setPromptValue(e.target.value)}
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
         startContent={
