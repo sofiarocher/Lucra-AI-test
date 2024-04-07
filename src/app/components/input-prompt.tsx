@@ -18,7 +18,7 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
   
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      click
+      click && click();
     }
   };
 
