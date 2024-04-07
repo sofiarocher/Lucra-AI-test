@@ -20,6 +20,7 @@ interface Message {
 export default function Chat({ title }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [isAiThinking, setIsAiThinking] = useState(false)
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
@@ -97,11 +98,14 @@ export default function Chat({ title }: ChatProps) {
           safetySettings,
           history: [],
         });
+
+        setIsAiThinking(true);
   
         const result = await chat.sendMessage(promptValue);
         const response = result.response;
   
         setTimeout(() => {
+          setIsAiThinking(false);
           const aiResponse: Message = {
             content: formatResponseText(response.text()),
             timestamp: new Date().toISOString(),
@@ -112,6 +116,14 @@ export default function Chat({ title }: ChatProps) {
         }, 1000);
         
       }
+
+      const TypingAnimation = () => {
+        return (
+            <div className="typing-animation text-white/90 font-bold">
+                <span>.</span><span>.</span><span>.</span>
+            </div>
+        );
+    };
 
       const formatResponseText = (text: string) => {
         let formattedText = text.replace(/\*\*(.*?)\*\*/g, '\n\n$1\n\n');
@@ -163,6 +175,17 @@ export default function Chat({ title }: ChatProps) {
                     </div>
                   </div>
                 ))}
+                {isAiThinking && (
+                    <div className="flex flex-col items-start">
+                        <div className="bg-black/30 rounded-lg px-4 py-2">
+                          <div className="flex items-center mb-2">
+                              <Image src={LucraU} alt="Lucra AI" className="w-8 h-8 rounded-full" />
+                              <span className="text-white ml-2 font-medium">Lucra</span>
+                          </div>
+                            <TypingAnimation />
+                        </div>
+                    </div>
+                )}
               </div>
             </div>
           )}
