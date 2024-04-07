@@ -27,10 +27,6 @@ export default function Generate() {
     setChatActive(true);
   };
 
-  const handleCloseChat = () => {
-    setChatActive(false);
-  };
-
   const handleModal = () => {
     setOpenModal(!openModal);
   };
@@ -43,7 +39,7 @@ export default function Generate() {
     {transitionChat((style, item) =>
       item ? (
         <animated.div style={style} className="absolute inset-0 flex flex-col items-center justify-center z-10">
-          <Chat title="What do you want to generate?" onclick={handleCloseChat} />
+          <Chat title="What do you want to generate?" />
         </animated.div>
       ) : (
         !openModal && (
