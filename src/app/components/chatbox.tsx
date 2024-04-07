@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react";
-import { Spinner } from '@nextui-org/react';
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Prompt from "./input-prompt";
 import User from "../../../public/user-profile.png"
@@ -20,6 +19,7 @@ interface Message {
 
 export default function Chat({ title }: ChatProps) {
   const [promptValue, setPromptValue] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<Message[]>(() => {
     const savedMessages = localStorage.getItem('messages');
     return savedMessages ? JSON.parse(savedMessages) : [];
@@ -29,6 +29,14 @@ export default function Chat({ title }: ChatProps) {
     setMessages([]); 
     localStorage.removeItem('messages'); 
   };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     localStorage.setItem('messages', JSON.stringify(messages));
@@ -136,6 +144,7 @@ export default function Chat({ title }: ChatProps) {
                 {messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((msg, index) => (
                   <div key={index} className={`flex ${msg.sender === 'user' ? 'flex-col-reverse items-end' : 'flex-col items-start'}`}>
                     <div className={`${msg.sender === 'user' ? 'bg-blue-300/20' : 'bg-black/30'} rounded-lg px-4 py-2`}>
+                    <div ref={messagesEndRef} />
                       {msg.sender === 'ai' && (
                         <div className="flex items-center mb-2">
                           <Image src={LucraU} alt="Lucra AI" className="w-8 h-8 rounded-full" />
