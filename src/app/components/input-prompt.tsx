@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import {Input} from "@nextui-org/react";
 import Image from "next/image";
-import Clip from "../../../public/lucra-clip.svg"
 import Enter from "../../../public/lucra-enter.svg"
 
 type PromptProps = {
@@ -41,12 +40,6 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
         onChange={(e) => setPromptValue(e.target.value)}
         onFocus={handleFocus}
         onKeyDown={handleKeyDown}
-        startContent={
-          <div className="flex items-center text-white" onClick={handleClick} style={{ cursor: 'pointer' }}>
-            <Image src={Clip} alt="Clip" className="opacity-90 lg:w-[24px] w-[20px]" />
-            <input type="file" ref={fileInputRef} className="hidden" />
-          </div>
-        }
         endContent={
           <div className="flex items-center text-white" onClick={click} style={{ cursor: 'pointer' }}>
             <Image src={Enter} alt="Enter" className="opacity-90 lg:w-[28px] w-[24px]" />
