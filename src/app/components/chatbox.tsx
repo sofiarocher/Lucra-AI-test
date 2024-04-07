@@ -103,32 +103,35 @@ export default function Chat({ title, onclick }: ChatProps) {
         }, 1500);
       }
 
-    return (
-        <div className="flex min-h-screen flex-col items-center justify-center lg:p-24 relative gap-20">
-            <Image src={Close} alt="Close Icon" onClick={onclick} className="absolute right-0 top-20 opacity-30" />
-            <p className="lg:text-4xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">{title} </p>
-            <div className="h-3/4 w-full bg-gray-300/5 rounded-lg border-1 border-blue-300/10 text-white/90">
-                <div className="flex items-center font-medium justify-end p-4 text-sm">
-                    <p className="pr-2">User</p>
-                    <Image src={User} alt="User Profile Picture" className="w-8"/>
+      return (
+        <div className="flex flex-col items-center justify-center lg:p-24 relative gap-4 w-3/4">
+          <Image src={Close} alt="Close Icon" onClick={onclick} className="absolute right-0 top-20 opacity-30" />
+          <p className="lg:text-4xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">{title}</p>
+          <div className="h-2/3 w-full bg-gray-300/5 rounded-lg border-1 border-blue-300/10 overflow-y-auto scrollbar-thin scrollbar-thumb-black/80 scrollbar-track-black/10 scrollbar-rounded scroll-smooth">
+            <div className="flex flex-col gap-2 p-4">
+              {messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((msg, index) => (
+                <div key={index} className={`flex ${msg.sender === 'user' ? 'flex-col-reverse items-end' : 'flex-col items-start'}`}>
+                  <div className={`${msg.sender === 'user' ? 'bg-blue-300/20' : 'bg-black/30'} rounded-lg px-4 py-2`}>
+                    {msg.sender === 'ai' && (
+                      <div className="flex items-center mb-2">
+                        <Image src={LucraU} alt="Lucra AI" className="w-8 h-8 rounded-full" />
+                        <span className="text-white ml-2 font-medium">Lucra</span>
+                      </div>
+                    )}
+                    {msg.sender === 'user' && (
+                      <div className="flex items-center justify-end mt-2">
+                        <span className="text-white mr-2 font-medium">User</span>
+                        <Image src={User} alt="User" className="w-8 h-8 rounded-full" />
+                      </div>
+                    )}
+                    <p className="text-white">{msg.content}</p>
+                  </div>
                 </div>
-                <div className="flex items-center font-medium justify-start p-4 text-sm">
-                    <Image src={LucraU} alt="User Profile Picture" className="w-8"/>
-                    <p className="pl-2">Lucra</p>
-                </div>
-                <div className="flex flex-col gap-2 p-4">
-                  {messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()).map((msg, index) => (
-                    <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                      <p className={`${msg.sender === 'user' ? 'bg-blue-500' : 'bg-green-500'} rounded px-4 py-2`}>
-                        {msg.content}
-                        {/* <span>{msg.timestamp}</span> */}
-                      </p>
-                    </div>
-                  ))}
-                </div>
+              ))}
             </div>
-            
-            <Prompt classname="" promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick}/>
+          </div>
+          
+          <Prompt promptValue={promptValue} setPromptValue={setPromptValue} click={handleEnterClick}/>
         </div>
-    )
+      )
 }
