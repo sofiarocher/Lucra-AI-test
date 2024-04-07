@@ -1,21 +1,17 @@
 import { StaticImageData } from "next/image";
 import { Dispatch, SetStateAction } from "react";
-
 export interface ChatState {
   chatActive: boolean;
   setChatActive: Dispatch<SetStateAction<boolean>>;
 }
-
 export interface ModalState {
   openModal: boolean;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
 }
-
 export interface MainContentProps extends ModalState {
   handleFocus: () => void;
   handleModal: () => void;
 }
-
 export interface TransitionChatProps {
   chatActive: boolean;
 }
@@ -26,7 +22,6 @@ export type DeleteProps = {
   onConfirm: () => void;
   hasMessages: boolean;
 };
-
 export interface CardProps {
   title: string;
   image: string | StaticImageData;
@@ -34,7 +29,6 @@ export interface CardProps {
   classname?: string;
   modal?: () => void;
 }
-
 export interface InfoProps {
   title: string;
   content: string;
@@ -53,11 +47,9 @@ export type PromptProps = {
 export interface ModalHelpProps {
   onClose: () => void;
 }
-
 export interface ChatProps {
   title: string;
 }
-
 export interface Message {
   content: string;
   timestamp: string;
