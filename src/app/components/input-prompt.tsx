@@ -3,7 +3,7 @@
 import {Input} from "@nextui-org/react";
 import Image from "next/image";
 import Enter from "../../../public/lucra-enter.svg"
-import Refresh from "../../../public/lucra-refresh.svg"
+import Delete from "../../../public/lucra-delete.svg"
 
 type PromptProps = {
   handleFocus?: () => void;
@@ -36,7 +36,7 @@ export default function Prompt({ handleFocus, classname, promptValue, click, set
         onKeyDown={handleKeyDown}
         endContent={
           <div className="flex items-center text-white" style={{ cursor: 'pointer' }}>
-            <Image src={Refresh} alt="Refresh" className="opacity-90 lg:w-[24px] w-[20px] mr-4" onClick={refresh}/>
+            <Image src={Delete} alt="Delete" className="opacity-90 lg:w-[24px] w-[20px] mr-4" onClick={refresh}/>
             <Image src={Enter} alt="Enter" className="opacity-90 lg:w-[28px] w-[24px]" onClick={click}/>
           </div>
         }
