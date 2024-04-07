@@ -8,7 +8,7 @@ import Arrow from "../../public/white-arrow.png"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center lg:p-24 relative overflow-y-hidden">
+    <main className="flex h-screen flex-col items-center justify-center lg:p-24 relative overflow-y-hidden bg-gradient">
       <section className="flex flex-col items-center justify-center mb-24">
         <div className="sm:text-5xl md:text-6xl lg:text-7xl text-5xl font-bold text-transparent bg-clip-text bg-text-gradient">
           <h1>

@@ -32,7 +32,7 @@ export default function Generate() {
   };
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center p-8 lg:p-0 overflow-y-hidden">
+    <main className="relative h-screen bg-gradient flex flex-col items-center justify-center p-8 lg:p-0 overflow-y-hidden">
     {openModal && (
       <ModalHelp onClose={handleModal} />
     )}
