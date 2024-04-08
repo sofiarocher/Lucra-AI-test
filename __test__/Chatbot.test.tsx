@@ -2,7 +2,6 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent} from '@testing-library/react';
 import Chat from '@/app/components/chatbox';
 
-
 describe('Chat Component', () => {
   it('renders the Chat component correctly', () => {
     render(<Chat title="What do you want to generate?" />);
