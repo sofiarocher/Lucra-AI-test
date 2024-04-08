@@ -10,9 +10,9 @@ import { TypingAnimation } from "./loader";
 import { MessageContent } from "./message-content";
 import User from "../../../public/user-profile.png";
 import LucraU from "../../../public/lucra-user.png";
+import Back from "../../../public/lucra-back.svg";
 import { generateAIResponse } from "../../../config";
 import { ERROR_MESSAGE } from "../../../constant";
-
 
 // Main Chat component function
 export default function Chat({ title }: ChatProps) {
@@ -21,63 +21,78 @@ export default function Chat({ title }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // Ref to control auto-scroll behavior
   const [isAiThinking, setIsAiThinking] = useState(false); // State to show loading when AI is processing
   const [hasMessages, setHasMessages] = useState(true); // State to check if there are messages in the chat
-  const [messages, setMessages] = useState<Message[]>(() => { // State to store chat messages
+  const [messages, setMessages] = useState<Message[]>(() => {
+    // State to store chat messages
     const savedMessages = localStorage.getItem("messages"); // Retrieve messages from local storage
     return savedMessages ? JSON.parse(savedMessages) : []; // Parse stored string back into an array
   });
 
   // Scroll to the bottom of the chat whenever messages are updated
-  useEffect(() => { scrollToBottom(); }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   // Store messages in local storage whenever they change
-  useEffect(() => { localStorage.setItem("messages", JSON.stringify(messages)); }, [messages]);
+  useEffect(() => {
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }, [messages]);
 
   // Load messages from local storage on component mount
   useEffect(() => {
     const messagesInStorage = localStorage.getItem("messages");
-    const messagesArray = messagesInStorage ? JSON.parse(messagesInStorage) : [];
+    const messagesArray = messagesInStorage
+      ? JSON.parse(messagesInStorage)
+      : [];
     setHasMessages(messagesArray.length > 0);
     setMessages(messagesArray);
   }, []);
 
   // Function to handle the action of deleting messages
   const handleDeleteClick = () => {
-    onOpen(); 
+    onOpen();
     setHasMessages(messages.length > 0);
   };
 
   // Function to ensure the chat view scrolls to the most recent message
-  const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   // Function to handle new message input and send it to the AI for response
   const handleEnterClick = async () => {
-    if (!promptValue.trim() || promptValue === "0") { 
-      alert("This input can't be empty."); 
+    if (!promptValue.trim() || promptValue === "0") {
+      alert("This input can't be empty.");
       return;
     }
-    setIsAiThinking(true); 
+    setIsAiThinking(true);
 
-    const newMessage: Message = { 
+    const newMessage: Message = {
       content: promptValue,
       timestamp: new Date().toISOString(),
       sender: "user",
     };
 
-    setMessages((messages) => [...messages, newMessage]); 
+    setMessages((messages) => [...messages, newMessage]);
     setPromptValue("");
 
     try {
       const aiResponse = await generateAIResponse(promptValue);
-      setMessages((messages: any) => [...messages, aiResponse]); 
-      setIsAiThinking(false); 
+      setMessages((messages: any) => [...messages, aiResponse]);
+      setIsAiThinking(false);
     } catch (error) {
-      console.error("Error occurred while generating AI response:", error); 
-      setIsAiThinking(false); 
+      console.error("Error occurred while generating AI response:", error);
+      setIsAiThinking(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden">
+    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden relative">
+      <Image
+        src={Back}
+        alt="Go Back Icon"
+        onClick={() => window.location.reload()}
+        className="absolute top-12 left-24 opacity-50 cursor-pointer"
+      />
       <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}
       </p>
