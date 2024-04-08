@@ -11,11 +11,14 @@ import { MessageContent } from "./message-content";
 import User from "../../../public/user-profile.png";
 import LucraU from "../../../public/lucra-user.png";
 import { generateAIResponse } from "../../../config";
+import { ERROR_MESSAGE } from "../../../constant";
+
 
 // Chat component definition
 export default function Chat({ title }: ChatProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [promptValue, setPromptValue] = useState("");
+  const [error, setError] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [isAiThinking, setIsAiThinking] = useState(false);
   const [hasMessages, setHasMessages] = useState(true);
@@ -51,8 +54,11 @@ export default function Chat({ title }: ChatProps) {
   };
 
   const handleEnterClick = async () => {
-    if (!promptValue.trim()) return;
-    setIsAiThinking(true)
+    if (!promptValue.trim() || promptValue === "0") {
+      alert("This input can't be empty.");
+      return;
+    }
+    setIsAiThinking(true);
 
     const newMessage: Message = {
       content: promptValue,
@@ -69,6 +75,7 @@ export default function Chat({ title }: ChatProps) {
       setIsAiThinking(false);
     } catch (error) {
       console.error("Error occurred while generating AI response:", error);
+      setPromptValue("I can't do that now. Try again later.");
       setIsAiThinking(false);
     }
   };
@@ -91,9 +98,13 @@ export default function Chat({ title }: ChatProps) {
                 }`}
               >
                 <div
-                  className={`${
-                    msg.sender === "user" ? "bg-blue-300/20" : "bg-black/30"
-                  } rounded-lg px-4 py-2`}
+                  className={`rounded-lg px-4 py-2 ${
+                    msg.sender === "user"
+                      ? "bg-blue-300/20"
+                      : msg.content === ERROR_MESSAGE
+                      ? "bg-red-500/30"
+                      : "bg-black/30"
+                  }`}
                 >
                   {msg.sender === "ai" && (
                     <div className="flex items-center mb-2">

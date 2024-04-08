@@ -53,8 +53,7 @@ export default function Generate() {
               <p className="sm:text-3xl md:text-4xl lg:text-5xl text-4xl font-bold text-transparent bg-clip-text bg-text-gradient text-center">
                 How can Lucra help you today?
               </p>
-              <Prompt handleFocus={handleFocus} /> {/* // Component for the user
-              input. */}
+              <Prompt handleFocus={handleFocus} /> {/* // Component for the user input. */}
               <div className="flex gap-4 lg:flex-row sm:flex-row flex-col flex-wrap mb-12 lg:w-auto w-full">
                 {/* Card components for different types of generation and help */}
                 <Card

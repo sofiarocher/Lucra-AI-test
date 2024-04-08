@@ -1,17 +1,26 @@
 import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { formatResponseText } from "./validations";
+import { ERROR_MESSAGE } from "./constant";
 
-export const generateAIResponse = async (promptValue:string) => {
-  const chatSession = await initializeChatSession();
-  const result = await sendMessageToAI(chatSession, promptValue);
-  const formattedResponse = formatResponseText(result.response.text());
-  return {
-    content: formattedResponse,
-    timestamp: new Date().toISOString(),
-    sender: "ai",
-  };
+export const generateAIResponse = async (promptValue: string) => {
+  try {
+    const chatSession = await initializeChatSession();
+    const result = await sendMessageToAI(chatSession, promptValue);
+    const formattedResponse = formatResponseText(result.response.text());
+    return {
+      content: formattedResponse,
+      timestamp: new Date().toISOString(),
+      sender: "ai",
+    };
+  } catch (error) {
+    console.error("Error in generateAIResponse:", error);
+    return {
+      content: ERROR_MESSAGE,
+      timestamp: new Date().toISOString(),
+      sender: "ai",
+    };
+  }
 };
-
 export const initializeChatSession = async () => {
   const genAI = new GoogleGenerativeAI(
     process.env.NEXT_PUBLIC_GEMINI_API_KEY!
