@@ -93,14 +93,14 @@ export default function Chat({ title }: ChatProps) {
         src={Back}
         alt="Go Back Icon"
         onClick={() => window.location.reload()}
-        className="absolute top-12 left-24 opacity-50 cursor-pointer w-12 border-1 rounded-full p-2 hover:bg-white/40"
+        className="absolute lg:top-12 lg:left-24 top-4 left-0 opacity-50 cursor-pointer lg:w-12 w-6 border-1 rounded-full p-1 lg:p-2 hover:bg-white/40"
       />
       {showAlert && (
-        <div className="absolute lg:bottom-48 bottom-28 bg-red-500/50 text-white/90 p-2 rounded-md">
+        <div className="absolute lg:bottom-48 bottom-36 bg-red-500/50 text-white/90 p-2 rounded-md">
           This input can't be empty.
         </div>
       )}
-      <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
+      <p className="lg:text-4xl md:text-2xl text-center text-sm font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}
       </p>
       {messages.length > 0 && (
