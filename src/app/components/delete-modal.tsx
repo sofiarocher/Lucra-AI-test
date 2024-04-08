@@ -23,7 +23,7 @@ export default function Delete({
       isOpen={isOpen} 
       onClose={onClose} 
       placement="center" 
-      className="m-8" 
+      className="m-8 bg-gray-500/20 text-white/90 backdrop-blur-md" 
     >
       <ModalContent>
         {/*   Container for the content of the modal */}
@@ -38,11 +38,11 @@ export default function Delete({
           </p>
         </ModalBody>
         <ModalFooter>
-          <Button color="default" variant="light" onPress={onClose}>
+          <Button color="default" variant="light" onPress={onClose} className="text-white">
             Cancel 
           </Button>
           {hasMessages && ( 
-            <Button color="danger" onPress={onConfirm}>
+            <Button color="danger" onPress={onConfirm} className="bg-red-500/70">
               Delete
             </Button>
           )}
