@@ -97,7 +97,7 @@ export default function Chat({ title }: ChatProps) {
       />
       {showAlert && (
         <div className="absolute lg:bottom-48 bottom-36 bg-red-500/50 text-white/90 p-2 rounded-md">
-          This input can't be empty.
+          This input can&apos;t be empty.
         </div>
       )}
       <p className="lg:text-4xl md:text-2xl text-center text-lg font-bold text-transparent bg-clip-text bg-text-gradient">
