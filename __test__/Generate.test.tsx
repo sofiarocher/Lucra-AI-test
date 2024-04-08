@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import {fireEvent, render, screen} from "@testing-library/react"
+import { render, screen, fireEvent } from '@testing-library/react';
 import Generate from "@/app/generate/page"
 
 describe('Generate Component', () => {
@@ -8,11 +8,16 @@ describe('Generate Component', () => {
       expect(screen.getByText('How can Lucra help you today?')).toBeInTheDocument();
     });
   
-    it('opens chat on button click', () => {
+    it('opens help modal', () => {
       render(<Generate />);
-      const promptButton = screen.getByText('Your Button Text Here'); // Asume que tienes un botón o elemento interactivo para activar el chat
-      fireEvent.click(promptButton);
-      expect(screen.getByText('What do you want to generate?')).toBeInTheDocument();
+      const helpButton = screen.getByText('Need Help?');
+      fireEvent.click(helpButton);
+      expect(screen.getByText('How to use Lucra?')).toBeInTheDocument();
     });
-  
+
+    it('input is focused', async () => {
+        render(<Generate />);
+        const promptInput = screen.getByPlaceholderText('Type your prompt here...');
+        fireEvent.focus(promptInput);
+      });
   });
