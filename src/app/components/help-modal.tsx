@@ -11,7 +11,7 @@ const modalContents = [
   {
     title: "Reasons to use Lucra",
     content:
-      "This platform leverages the advanced OpenAI API to deliver smart, adaptive solutions. It enables task automation, creative content generation, and insights from large data sets, enhancing efficiency and innovation.",
+      "This platform leverages the advanced Gemini AI API to deliver smart, adaptive solutions. It enables task automation, creative content generation, and insights from large data sets, enhancing efficiency and innovation.",
   },
   {
     title: "Home",
