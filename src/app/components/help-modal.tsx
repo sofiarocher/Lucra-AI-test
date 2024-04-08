@@ -1,12 +1,9 @@
 // Import React and Next.js functionalities
 import { MouseEvent } from "react";
 import Image from "next/image";
-// Import custom modal content component
 import ModalContent from "./modal-info";
-// Import image assets for the modal
 import Close from "../../../public/lucra-cross.svg";
 import LucraH2 from "../../../public/lucra-help-2.png";
-// Import type definitions for props
 import { ModalHelpProps } from "../../../interfaces";
 
 // Predefined content for the modal displayed to the user
@@ -41,10 +38,9 @@ const modalContents = [
 
 // Component for displaying a modal with helpful information
 export default function ModalHelp({ onClose }: ModalHelpProps) {
-  // Function to handle clicks outside the modal content, triggering the close function
   const handleOutsideClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.currentTarget === event.target) {
-      onClose(); // Close the modal when the overlay is clicked
+      onClose();
     }
   };
 
@@ -56,12 +52,12 @@ export default function ModalHelp({ onClose }: ModalHelpProps) {
     >
       <div
         className="rounded-lg p-8 text-white/90 bg-gray-300/5 border-1 border-blue-300/30 text-center lg:w-2/4 w-auto relative sm:mx-20"
-        onClick={(e) => e.stopPropagation()} // Prevent event bubbling to avoid closing the modal when its content is clicked
+        onClick={(e) => e.stopPropagation()}
       >
         <Image
           src={Close}
           alt="Close Icon"
-          onClick={onClose} // Function to close the modal
+          onClick={onClose} 
           className="absolute right-4 top-4 opacity-70 w-4 lg:w-8 cursor-pointer"
         />
         <h2 className="lg:text-3xl text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
@@ -72,7 +68,7 @@ export default function ModalHelp({ onClose }: ModalHelpProps) {
             key={title}
             title={title}
             content={content}
-            classname={classname} // Additional styling for specific content
+            classname={classname} 
           />
         ))}
         <Image
