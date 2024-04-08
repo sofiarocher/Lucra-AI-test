@@ -49,6 +49,7 @@ export default function Prompt({
               src={Enter}
               alt="Enter"
               className="opacity-90 lg:w-[28px] w-[24px]"
+              data-testid="sendButton"
               onClick={click} 
             />
           </div>

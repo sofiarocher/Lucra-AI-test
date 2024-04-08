@@ -14,7 +14,7 @@ export const generateAIResponse = async (promptValue: string) => {
       sender: "ai",
     };
   } catch (error) {
-    console.error("Error in generateAIResponse:", error);
+    console.error("Error in generate AIResponse:", error);
     // Return a predefined error message if the process fails
     return {
       content: ERROR_MESSAGE,
