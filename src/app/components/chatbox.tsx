@@ -91,7 +91,7 @@ export default function Chat({ title }: ChatProps) {
         src={Back}
         alt="Go Back Icon"
         onClick={() => window.location.reload()}
-        className="absolute top-12 left-24 opacity-50 cursor-pointer"
+        className="absolute top-12 left-24 opacity-50 cursor-pointer w-12 border-1 rounded-full p-2 hover:bg-white/40"
       />
       <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}

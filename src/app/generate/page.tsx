@@ -49,11 +49,11 @@ export default function Generate() {
           // Main section visible when the modal is not active.
           !active.modal && (
             <section className="flex flex-col items-center justify-center lg:gap-20 gap-16 mt-12 relative">
-              <Link href="/">
+              <Link href="/" >
                 <Image
                   src={HomeIcon}
                   alt="Home Icon"
-                  className="absolute top-12 right-[110%] opacity-50 cursor-pointer"
+                  className="absolute top-10 right-[105%] opacity-50 cursor-pointer w-12 border-1 rounded-full p-2 hover:bg-white/40"
                 />
               </Link>
               <p className="sm:text-3xl md:text-4xl lg:text-5xl text-4xl font-bold text-transparent bg-clip-text bg-text-gradient text-center">
