@@ -21,6 +21,7 @@ export default function Chat({ title }: ChatProps) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null); // Ref to control auto-scroll behavior
   const [isAiThinking, setIsAiThinking] = useState(false); // State to show loading when AI is processing
   const [hasMessages, setHasMessages] = useState(true); // State to check if there are messages in the chat
+  const [showAlert, setShowAlert] = useState(false); //State to show when input is empty
   const [messages, setMessages] = useState<Message[]>(() => {
     // State to store chat messages
     const savedMessages = localStorage.getItem("messages"); // Retrieve messages from local storage
@@ -61,9 +62,10 @@ export default function Chat({ title }: ChatProps) {
   // Function to handle new message input and send it to the AI for response
   const handleEnterClick = async () => {
     if (!promptValue.trim() || promptValue === "0") {
-      alert("This input can't be empty.");
+      setShowAlert(true);
       return;
     }
+    setShowAlert(false);
     setIsAiThinking(true);
 
     const newMessage: Message = {
@@ -86,13 +88,18 @@ export default function Chat({ title }: ChatProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden relative">
+    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden relative h-full">
       <Image
         src={Back}
         alt="Go Back Icon"
         onClick={() => window.location.reload()}
         className="absolute top-12 left-24 opacity-50 cursor-pointer w-12 border-1 rounded-full p-2 hover:bg-white/40"
       />
+      {showAlert && (
+        <div className="absolute lg:bottom-48 bottom-28 bg-red-500/50 text-white/90 p-2 rounded-md">
+          This input can't be empty.
+        </div>
+      )}
       <p className="lg:text-4xl text-center text-2xl font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}
       </p>
