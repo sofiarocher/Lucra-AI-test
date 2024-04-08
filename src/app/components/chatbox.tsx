@@ -88,19 +88,19 @@ export default function Chat({ title }: ChatProps) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden relative h-full">
+    <div className="flex flex-col items-center justify-center lg:p-24 sm:gap-8 gap-4 w-3/4 overflow-y-hidden relative lg:h-full h-3/4">
       <Image
         src={Back}
         alt="Go Back Icon"
         onClick={() => window.location.reload()}
-        className="absolute lg:top-12 lg:left-24 top-4 left-0 opacity-50 cursor-pointer lg:w-12 w-6 border-1 rounded-full p-1 lg:p-2 hover:bg-white/40"
+        className="absolute lg:top-12 lg:left-24 top-0 left-0 opacity-50 cursor-pointer lg:w-12 w-5 border-1 rounded-full p-0 lg:p-2 hover:bg-white/40"
       />
       {showAlert && (
         <div className="absolute lg:bottom-48 bottom-36 bg-red-500/50 text-white/90 p-2 rounded-md">
           This input can't be empty.
         </div>
       )}
-      <p className="lg:text-4xl md:text-2xl text-center text-sm font-bold text-transparent bg-clip-text bg-text-gradient">
+      <p className="lg:text-4xl md:text-2xl text-center text-lg font-bold text-transparent bg-clip-text bg-text-gradient">
         {title}
       </p>
       {messages.length > 0 && (
