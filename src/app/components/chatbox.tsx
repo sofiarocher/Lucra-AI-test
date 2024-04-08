@@ -207,7 +207,6 @@ export default function Chat({ title }: ChatProps) {
                     msg.sender === "user" ? "bg-blue-300/20" : "bg-black/30"
                   } rounded-lg px-4 py-2`}
                 >
-                  <div ref={messagesEndRef} />
                   {msg.sender === "ai" && (
                     <div className="flex items-center mb-2">
                       <Image
@@ -232,9 +231,24 @@ export default function Chat({ title }: ChatProps) {
                     <MessageContent content={msg.content} />
                   </p>
                 </div>
+                <div ref={messagesEndRef} />
               </div>
             ))}
-            {isAiThinking && <TypingAnimation />}
+            {isAiThinking && (
+              <div className="flex flex-col items-start">
+                <div className="bg-black/30 rounded-lg px-4 py-2">
+                  <div className="flex items-center mb-2">
+                    <Image
+                      src={LucraU}
+                      alt="Lucra AI"
+                      className="w-8 h-8 rounded-full"
+                    />
+                    <span className="text-white ml-2 font-medium">Lucra</span>
+                  </div>
+                  <TypingAnimation />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

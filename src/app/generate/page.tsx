@@ -35,8 +35,8 @@ export default function Generate() {
   // JSX structure of the component.
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center p-8 lg:p-0 animate__animated animate__fadeIn">
-      {active.modal && <ModalHelp onClose={toggleModal} />} // Renders the help
-      modal if it is active.
+      {active.modal && <ModalHelp onClose={toggleModal} />} /{/* / Renders the help
+      modal if it is active. */}
       {transitionChat((style, item) =>
         item ? (
           // Animated container for the chat, visible when item is true.
@@ -53,8 +53,8 @@ export default function Generate() {
               <p className="sm:text-3xl md:text-4xl lg:text-5xl text-4xl font-bold text-transparent bg-clip-text bg-text-gradient text-center">
                 How can Lucra help you today?
               </p>
-              <Prompt handleFocus={handleFocus} /> // Component for the user
-              input.
+              <Prompt handleFocus={handleFocus} /> {/* // Component for the user
+              input. */}
               <div className="flex gap-4 lg:flex-row sm:flex-row flex-col flex-wrap mb-12 lg:w-auto w-full">
                 {/* Card components for different types of generation and help */}
                 <Card
