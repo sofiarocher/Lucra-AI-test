@@ -1,8 +1,6 @@
 # Lucra.AI
 
-Welcome to Lucra.AI, your creative problem-solving companion powered by AI.
-
-
+Lucra.AI is your innovative companion, leveraging artificial intelligence to enhance creative problem-solving. Dive into a world where AI helps generate ideas, provide solutions, and inspire creativity through engaging text-based interactions.
 
 
 ## Getting Started
@@ -11,7 +9,7 @@ To get started with Lucra.AI, follow these steps:
 
 1. Clone the project repository into your Visual Studio Code:
    ```bash
-   git clone https://github.com/sofiarocher/lucra-test.git
+   git clone https://github.com/sofiarocher/lucra-AI-test.git
 
   
 2. Install the required dependencies by running:
